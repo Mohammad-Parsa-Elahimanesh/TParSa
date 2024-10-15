@@ -1,74 +1,85 @@
-/*
-	PLEASE DO NOT CHANGE FILE NAME!
-
-	write your test case validator!
-	this is file validate input files
-	if input is valid this program finish normally (return 0) otherwise finish with an error (return 1)
-
-	some useful validator tools in testlib:
-
-		+ inf.readInt
-			you can read an integer from input file.
-
-			general form:
-				int variable_name = inf.readInt(<lower_bound>, <upper_bound>, "<variable_name>");
-
-			example: 
-				int n = inf.readInt(1, 100, "n");
-				(read an integer name "n" between 1 to 100 inclusive.)
-		
-		
-		+ inf.readToken
-			you can read an string from input file
-			(without white-space)
-
-			general form:
-				variable_name = inf.readToken();
-			
-			example:
-				string s = inf.readToken();
-				inf.readToken("[a-z]{1,7}"); // reads string with lowercase with atmost 7 chars
-
-		
-		+ inf.readSpace
-			read an space. you can use it to validate there is an space here.
-		
-			general form / example:
-				inf.readSpace();
-		
-		
-		+ inf.readEoln
-			read an end of line. you can use it to validate there is an end of line here.
-
-			general form / example:
-				inf.readEoln();
-
-		
-		+ inf.readEof
-			it use to see input file finished.
-			
-			general form / example:
-				inf.readEof()
-
-
-		+ ensuref
-			it use to check a condition (like assert)
-
-			general form:
-				ensuref(<boolean condition>, "<massage>");
-
-			example:
-				ensuref(a + b == c, "invalid input");
-
-*/
-
 #include "testlib.h"
 
 using namespace std;
+typedef long long ll;
+
+// read n numbers in one line in range [a, b] inclusive.
+inline vector<ll> GetIntList(size_t n, ll l, ll r, string name = "arr[i]") {
+	vector<ll> arr(n);
+	for(size_t i = 0; i < n; i++) {
+		arr[i] = inf.readLong(l, r, "arr[i]");
+		if(i+1 == n)
+			inf.readEoln();
+		else
+			inf.readSpace();
+	}
+	return arr;
+}
+
+inline vector<ll> GetIntList(size_t n, string name = "arr[i]") {
+	return GetIntList(n, LONG_LONG_MIN, LONG_LONG_MAX, name);
+}
+
+inline ll ReadInt(ll l, ll r, string name = "n") {
+	ll res = inf.readLong(l, r, name);
+	inf.readEoln();
+	return res;
+}
+
+inline ll ReadInt(string name = "n") {
+	return ReadInt(LONG_LONG_MIN, LONG_LONG_MAX, name);
+}
+
+vector<ll> GetIntList(ll ln, ll rn, ll la, ll ra, string arrName = "arr[i]", string lengthName = "n") {
+	return GetIntList(ReadInt(ln, rn, lengthName), la, ra, arrName);
+}
+
+inline void CheckSorted(const vector<ll> &arr) {
+	ensuref(is_sorted(arr.begin(), arr.end()), "Array must be sorted.");
+}
+
+inline void CheckUnique(vector<ll> &arr) {
+	ensuref(unique(arr.begin(), arr.end()) == arr.end(), "Array must be unique.");
+}
+
+inline string word() {
+	string s = inf.readToken("[a-z]+");
+	inf.readEoln();
+	return s;
+}
+
+inline string word(size_t l, size_t r) {
+	string s = word();
+	ensuref(l <= s.size() and s.size() <= r, "String size does not match.");
+}
+
+inline string word(size_t n) {
+	return word(1, n);
+}
+
+inline string Word() {
+	string s = inf.readToken("[A-Za-z]+");
+	inf.readEoln();
+	return s;
+}
+
+inline string Word(size_t l, size_t r) {
+	string s = Word();
+	ensuref(l <= s.size() and s.size() <= r, "String size does not match.");
+}
+
+inline string Word(size_t n) {
+	return Word(1, n);
+}
+
+// TODO: read and validate tree
 
 int main() 
 {
 	registerValidation();
 	
+
+
+	inf.readEof();
 	return 0;
 }
