@@ -1,58 +1,60 @@
 #!/bin/bash
 
+first_dir=$PWD
+cd $(dirname "$(realpath "$0")")
+
+result="tempSubtaskOutput.txt"
+Quera="../Quera_Test"
+inputs=$Quera"/in"
+
+rm $result 2>/dev/null
+touch $result
+
 echo "enter number of subtasks: "
 read sub
+echo $sub >> $result
 
 declare -a score
 for ((i=1; i<=sub; i++))
 do
     echo "enter score of subtask number : $i"
-    read score[$i-1]
+    read score[$i-1]    
+    echo ${score[i-1]} >> $result
 done
 
-echo "enter 3 numbers in a range (subtask, l, r) inclusive [l, r], 0 0 0 for ends"
-declare -a subs
-while true
+for ((i=1; i<=sub; i++))
 do
-    read s l r
-    if [[ $s -lt 0 || $l -lt 0 || $r -lt 0 || $r -lt $l || $s -gt $sub ]]
-    then
-        continue
-    fi
-    if [[ $s -eq 0 && $l -eq 0 && $r -eq 0 ]]
-    then
-        break
-    fi
-    if [[ $s -eq 0 ]]
-    then
-        continue
-    fi
-    for ((i=l; i<=r; i++))
+    echo "enter count of validators $i"
+    read count
+    declare -a validator
+    
+    for ((j=1; j<=count; j++))
     do
-        subs[$s-1]+="$i "
-    done
-done
-
-rm config.json 2>/dev/null
-
-echo "{" >> config.json
-echo "    \"packages\": [" >> config.json
-for ((i=0; i<sub; i++))
-do
-    echo "        {" >> config.json
-    echo "            \"score\": ${score[$i]}," >> config.json
-    echo "            \"tests\": [" >> config.json
-
-    sorted_subs=($(echo "${subs[$i]}" | tr ' ' '\n' | sort -n | tr '\n' ' '))
-    unique_subs=($(echo "${sorted_subs[@]}" | tr ' ' '\n' | uniq | tr '\n' ' '))
-    for ((j=0; j<${#unique_subs[@]}; j++))
-    do
-        echo "                ${unique_subs[$j]}$(if [[ $j -eq $((${#unique_subs[@]}-1)) ]]; then echo ""; else echo ","; fi)" >> config.json
+    	echo "enter validator $j of subtask $i: "
+    	read validator[$j-1]
+    	validator[$j-1]="../validator/"${validator[j-1]%.cpp}
+    	bash ./Compile.sh ${validator[j-1]} || exit 11 
     done
     
-    echo "            ]" >> config.json
-    echo "        }$(if [[ $i -eq $(($sub-1)) ]]; then echo ""; else echo ","; fi)" >> config.json
+    for test in $inputs/*;do
+        is_valid=1
+        for ((j=1; j<=count; j++))
+    	do
+    		./${validator[j-1]} < $test >/dev/null 2>/dev/null || is_valid=0
+    	done
+        if [ $is_valid -eq 1 ]; then
+            number=$(echo "$test" | grep -o '[0-9]\+' | tail -n 1)
+            echo $i $number $number >> $result 
+        fi
+    done
+    
+    for ((j=1; j<=count; j++))
+    do
+    	rm ${validator[j-1]}
+    done
+    
 done
 
-echo "   ]" >> config.json
-echo "}" >> config.json
+bash ./Config.sh < $result && rm $result && mv config.json $Quera 
+cd $first_dir
+echo Finish
