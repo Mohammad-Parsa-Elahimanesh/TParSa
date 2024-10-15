@@ -1,0 +1,7 @@
+@subtask samples
+manual sample1.in
+manual sample2.in
+
+@subtask full
+@include samples
+gen <arguments> <random string for seed>
