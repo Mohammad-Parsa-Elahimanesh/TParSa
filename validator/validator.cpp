@@ -3,6 +3,28 @@
 using namespace std;
 typedef long long ll;
 
+ll dfs(ll v, ll d, const vector<vector<ll>> &tr) {
+	ll s = 1;
+	for(auto u: tr[v])
+		if(u != d)
+			s += dfs(u, v, tr);
+	return s;
+}
+
+inline vector<vector<ll>> ReadTree(int n, ll ind = 1) {
+	vector<vector<ll>> tr(n);
+	for(int i = 1; i < n; i++) {
+	    ll u = inf.readLong(ind, ind+n-1)-ind;
+		inf.readSpace();
+		ll v = inf.readLong(ind, ind+n-1)-ind;
+		inf.readEoln();
+		tr[u].push_back(v);
+		tr[v].push_back(u);
+	}
+	ensure(dfs(0,0,tr) == n);
+	return tr;
+}
+
 // read n numbers in one line in range [a, b] inclusive.
 inline vector<ll> GetIntList(size_t n, ll l, ll r, string name = "arr[i]") {
 	vector<ll> arr(n);
@@ -72,7 +94,6 @@ inline string Word(size_t n) {
 	return Word(1, n);
 }
 
-// TODO: read and validate tree
 
 int main() 
 {
