@@ -1,6 +1,5 @@
 @subtask samples
 manual sample1.in
-manual sample2.in
 
 @subtask full
 @include samples

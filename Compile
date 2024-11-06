@@ -1,0 +1,2 @@
+name="${1%.cpp}"
+g++ ${name}.cpp -Wall -Wextra -Wshadow -fsanitize=undefined -o $name -Ofast -mcmodel=medium -llapack -lblas

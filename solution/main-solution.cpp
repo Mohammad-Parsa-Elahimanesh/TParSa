@@ -1,17 +1,12 @@
-/*
-    PLEASE DO NOT CHANGE FILE NAME!
-    
-    write your modele solution!
-    this is correct jury's solution.
-    you should use standard Input/Output to read and write solution.
-*/
-
+// In the name of god
 #include <bits/stdc++.h>
 
 using namespace std;
 
 int main() 
 {
-
+    ios_base::sync_with_stdio(false), cin.tie(nullptr);
+    
+    
     return 0;
 }
