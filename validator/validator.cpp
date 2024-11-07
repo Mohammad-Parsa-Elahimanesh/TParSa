@@ -29,7 +29,7 @@ inline vector<vector<ll>> ReadTree(int n, ll ind = 1) {
 inline vector<ll> GetIntList(size_t n, ll l, ll r, string name = "arr[i]") {
 	vector<ll> arr(n);
 	for(size_t i = 0; i < n; i++) {
-		arr[i] = inf.readLong(l, r, "arr[i]");
+		arr[i] = inf.readLong(l, r, name);
 		if(i+1 == n)
 			inf.readEoln();
 		else
@@ -73,6 +73,7 @@ inline string word() {
 inline string word(size_t l, size_t r) {
 	string s = word();
 	ensuref(l <= s.size() and s.size() <= r, "String size does not match.");
+	return s;
 }
 
 inline string word(size_t n) {
@@ -88,6 +89,7 @@ inline string Word() {
 inline string Word(size_t l, size_t r) {
 	string s = Word();
 	ensuref(l <= s.size() and s.size() <= r, "String size does not match.");
+	return s;
 }
 
 inline string Word(size_t n) {
