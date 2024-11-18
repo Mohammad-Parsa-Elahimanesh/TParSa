@@ -14,9 +14,9 @@ ll dfs(ll v, ll d, const vector<vector<ll>> &tr) {
 inline vector<vector<ll>> ReadTree(int n, ll ind = 1) {
 	vector<vector<ll>> tr(n);
 	for(int i = 1; i < n; i++) {
-	    ll u = inf.readLong(ind, ind+n-1)-ind;
+	    ll u = inf.readLong(ind, ind+n-1, "u")-ind;
 		inf.readSpace();
-		ll v = inf.readLong(ind, ind+n-1)-ind;
+		ll v = inf.readLong(ind, ind+n-1, "v")-ind;
 		inf.readEoln();
 		tr[u].push_back(v);
 		tr[v].push_back(u);
@@ -26,19 +26,13 @@ inline vector<vector<ll>> ReadTree(int n, ll ind = 1) {
 }
 
 // read n numbers in one line in range [a, b] inclusive.
-inline vector<ll> GetIntList(size_t n, ll l, ll r, string name = "arr[i]") {
-	vector<ll> arr(n);
-	for(size_t i = 0; i < n; i++) {
-		arr[i] = inf.readLong(l, r, name);
-		if(i+1 == n)
-			inf.readEoln();
-		else
-			inf.readSpace();
-	}
+inline vector<ll> GetIntList(size_t n, ll l, ll r, string name = "arr") {
+	vector<ll> arr = inf.readLongs(n, l, r, name);
+	inf.readSpace();
 	return arr;
 }
 
-inline vector<ll> GetIntList(size_t n, string name = "arr[i]") {
+inline vector<ll> GetIntList(size_t n, string name = "arr") {
 	return GetIntList(n, LONG_LONG_MIN, LONG_LONG_MAX, name);
 }
 
@@ -52,7 +46,7 @@ inline ll ReadInt(string name = "n") {
 	return ReadInt(LONG_LONG_MIN, LONG_LONG_MAX, name);
 }
 
-vector<ll> GetIntList(ll ln, ll rn, ll la, ll ra, string arrName = "arr[i]", string lengthName = "n") {
+vector<ll> GetIntList(ll ln, ll rn, ll la, ll ra, string arrName = "arr", string lengthName = "n") {
 	return GetIntList(ReadInt(ln, rn, lengthName), la, ra, arrName);
 }
 
@@ -64,42 +58,42 @@ inline void CheckUnique(vector<ll> &arr) {
 	ensuref(unique(arr.begin(), arr.end()) == arr.end(), "Array must be unique.");
 }
 
-inline string word() {
-	string s = inf.readToken("[a-z]+");
+inline string word(string name = "s") {
+	string s = inf.readToken("[a-z]+", name);
 	inf.readEoln();
 	return s;
 }
 
-inline string word(size_t l, size_t r) {
-	string s = word();
+inline string word(size_t l, size_t r, string name = "s") {
+	string s = word(name);
 	ensuref(l <= s.size() and s.size() <= r, "String size does not match.");
 	return s;
 }
 
-inline string word(size_t n) {
-	return word(1, n);
+inline string word(size_t n, string name = "s") {
+	return word(1, n, name);
 }
 
-inline string Word() {
-	string s = inf.readToken("[A-Za-z]+");
+inline string Word(string name = "s") {
+	string s = inf.readToken("[A-Za-z]+", name);
 	inf.readEoln();
 	return s;
 }
 
-inline string Word(size_t l, size_t r) {
-	string s = Word();
+inline string Word(size_t l, size_t r, string name = "s") {
+	string s = Word(name);
 	ensuref(l <= s.size() and s.size() <= r, "String size does not match.");
 	return s;
 }
 
-inline string Word(size_t n) {
-	return Word(1, n);
+inline string Word(size_t n, string name = "s") {
+	return Word(1, n, name);
 }
 
 
-int main() 
+int main(int argc, char** argv) 
 {
-	registerValidation();
+	registerValidation(argc, argv);
 	
 
 
