@@ -4,6 +4,21 @@
 using namespace std;
 typedef long long ll;
 
+#define all(x) begin(x), end(x)
+#define sz(x) (int)(x).size()
+
+template<typename _Iterator>
+inline void out(_Iterator __first, _Iterator __last) {
+	cout << (__first == __last?"\n":"");
+	while (__first != __last)
+		cout << *__first++ << (__first == __last?'\n':' ');
+}
+
+template<typename _List>
+inline void out(_List &_list) { 
+	out(all(_list));
+}
+
 constexpr int TOTAL = 100;
 inline bool C() {return rnd.next(2);}
 inline bool Coin() {return C();}
@@ -33,10 +48,8 @@ inline void RangeShuffle(_RandomAccessIterator __first, _RandomAccessIterator __
     }
 }
 
-
 int main(int argc, char *argv[]) {
     registerGen(argc, argv, 1);
-
 
     return 0;
 }

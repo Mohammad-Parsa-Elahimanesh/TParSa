@@ -71,7 +71,7 @@ inline string word(size_t l, size_t r, string name = "s") {
 }
 
 inline string word(size_t n, string name = "s") {
-    return word(1, n, name);
+    return word(n, n, name);
 }
 
 inline string Word(string name = "s") {
@@ -87,7 +87,7 @@ inline string Word(size_t l, size_t r, string name = "s") {
 }
 
 inline string Word(size_t n, string name = "s") {
-    return Word(1, n, name);
+    return Word(n, n, name);
 }
 
 
