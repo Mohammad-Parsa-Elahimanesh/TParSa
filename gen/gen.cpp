@@ -48,6 +48,59 @@ inline void RangeShuffle(_RandomAccessIterator __first, _RandomAccessIterator __
     }
 }
 
+vector<int> Tree(int n, string tr) {
+    vector<int> par(n-1);
+    if(tr == "regular" or tr == "cbt" or tr == "sqrt" or tr == "path") { 
+        int deg;
+        if(tr == "regular")
+            deg = opt<int>("r");
+        else if(tr == "path")
+            deg = 1;
+        else if(tr == "cbt")
+            deg = 2;
+        else if(tr == "sqrt")
+            deg = (int) sqrt(n);
+        int boss = 1, p = 2, r = deg;
+        while(p <= n) {
+            par[p-2] = boss;
+            r--;
+            p++;
+            if(r == 0)
+                r = deg, boss++;
+        }
+    } else if(tr == "star" or tr == "layer") {
+        int layers;
+        if(tr == "layer")
+            layers = opt<int>("l");
+        else if(tr == "star")
+            layers = 1;
+        vector<int> h(n);
+        vector<int> a = {1};
+        int p = 2;
+        while(p <= n) {
+            int he = rnd.any(a);
+            while (h[he-1] < layers and p <= n) {
+                par[p-2] = he;
+                h[p-1] = h[he-1]+1;
+                if(h[p-1] < layers)
+                    a.push_back(p);
+                he = p++;
+            }
+        }
+    } else if(tr == "pastar") {
+        for(int i = 1; i <= n/3; i++)
+            par[i-1] = 1;
+        for(int i = n/3+1; i <= 2*n/3; i++)
+            par[i-1] = i;
+        for(int i = 2*n/3+1; i < n; i++)
+            par[i-1] = 2*n/3+1;
+    } else {
+        for(int i = 1; i < n; i++)
+            par[i-1] = rnd.next(1, i);
+    }
+    return par;
+}
+
 int main(int argc, char *argv[]) {
     registerGen(argc, argv, 1);
 
