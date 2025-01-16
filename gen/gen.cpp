@@ -48,6 +48,9 @@ inline void RangeShuffle(_RandomAccessIterator __first, _RandomAccessIterator __
     }
 }
 
+// tr can be regular (-r) r is number of children, cbt: complete binary tree, sqrt: sqrn(n) regular, path, 
+//        star, layer (-l): have specific number of layers, pastar: star-path-star, 
+//        boreth: path with leaves for each node, random
 vector<int> Tree(int n, string tr) {
     vector<int> par(n-1);
     if(tr == "regular" or tr == "cbt" or tr == "sqrt" or tr == "path") { 
@@ -94,12 +97,39 @@ vector<int> Tree(int n, string tr) {
             par[i-1] = i;
         for(int i = 2*n/3+1; i < n; i++)
             par[i-1] = 2*n/3+1;
+    } else if(tr == "bores") {
+        for(int i = 1; i < n; i++) {
+            if(i&1)
+                par[i-1] = i;
+            else
+                par[i-1] = i-1;
+        }
     } else {
         for(int i = 1; i < n; i++)
             par[i-1] = rnd.next(1, i);
     }
     return par;
 }
+
+vector<pair<int, int>> TreeEdges(int n, string tr) {
+    vector<int> par = Tree(n, tr);
+    vector<pair<int, int>> edges;
+    for(int i = 0; i < n-1; i++)
+        edges.push_back({i+2, par[i]});
+    vector<int> p;
+    for(int i = 0; i < n; i++)
+        p[i] = i;
+    shuffle(all(p));
+    for(auto &[u, v]: edges) {
+        if(coin())
+            swap(u, v);
+        u = p[u-1]+1;
+        v = p[v-1]+1;
+    }
+    shuffle(all(edges));
+    return edges;
+}
+
 
 int main(int argc, char *argv[]) {
     registerGen(argc, argv, 1);
