@@ -27,7 +27,7 @@ inline vector<vector<ll>> ReadTree(int n, ll ind = 1) {
 
 // read n numbers in one line in range [a, b] inclusive.
 inline vector<ll> GetIntList(size_t n, ll l, ll r, string name = "arr") {
-    vector<ll> arr = inf.readLongs(n, l, r, name);
+    vector<ll> arr = inf.readLongs((int) n, l, r, name);
     inf.readEoln();
     return arr;
 }
