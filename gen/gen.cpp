@@ -48,13 +48,15 @@ inline void RangeShuffle(_RandomAccessIterator __first, _RandomAccessIterator __
     }
 }
 
+////////////////////////// Graph //////////////////////////
+
 // tr can be regular (-r) r is number of children, cbt: complete binary tree, sqrt: sqrn(n) regular, path, 
 //        star, layer (-l): have specific number of layers, pastar: star-path-star, 
 //        boreth: path with leaves for each node, random
-vector<int> Tree(int n, string tr) {
+inline vector<int> Tree(int n, string tr) {
     vector<int> par(n-1);
     if(tr == "regular" or tr == "cbt" or tr == "sqrt" or tr == "path") { 
-        int deg;
+        int deg = 0;
         if(tr == "regular")
             deg = opt<int>("r");
         else if(tr == "path")
@@ -72,7 +74,7 @@ vector<int> Tree(int n, string tr) {
                 r = deg, boss++;
         }
     } else if(tr == "star" or tr == "layer") {
-        int layers;
+        int layers = 0;
         if(tr == "layer")
             layers = opt<int>("l");
         else if(tr == "star")
@@ -130,9 +132,47 @@ vector<pair<int, int>> TreeEdges(int n, string tr) {
     return edges;
 }
 
+////////////////////////// Number Theory //////////////////////////
+
+inline bool isPrime(int n) {
+    for(int i = 2; i*i <= n; i++)
+        if(n%i == 0)
+            return false;
+    return true;
+}
+
+inline int Prime(int n, int cnt_maxer = 0) {
+    int p = rnd.wnext(1, n, cnt_maxer);
+    while(!isPrime(p))
+        p = rnd.wnext(1, n, cnt_maxer);
+    return p;
+}
+
+vector<int> highest_composite = {
+    1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360, 720, 840, 1260, 1680, 2520, 5040, 7560, 10080, 15120, 20160, 25200, 27720,
+    45360, 50400, 55440, 83160, 110880, 166320, 221760, 277200, 332640, 498960, 554400, 665280, 720720, 1081080, 1441440, 2162160,
+    2882880, 3603600, 4324320, 6486480, 7207200, 8648640, 10810800, 14414400, 17297280, 21621600, 32432400, 36756720, 43243200, 
+    61261200, 73513440, 110270160, 122522400, 147026880, 183783600, 245044800, 294053760, 367567200, 551350800, 698377680, 735134400
+};
+
+vector<int> cohighest_composite = {
+    6, 8,   60, 72, 84, 90, 96,    840,    7560, 9240,    83160, 98280,    720720, 831600, 942480, 982800, 997920, 
+    8648640,    73513440, 82162080, 86486400, 91891800, 98017920, 99459360,    735134400, 821620800, 931170240, 994593600
+};
+
+inline ll HighlyComposite(ll n, double step = 3.13) {
+    ll res = 1LL;
+    for(double i = 1.0+step; (ll) i*res <= n; i += step)
+        res *= rnd.next(1LL, (ll) i);
+    res *= n/res;
+    return res;
+}
+
 
 int main(int argc, char *argv[]) {
     registerGen(argc, argv, 1);
+    
+    
 
     return 0;
 }
