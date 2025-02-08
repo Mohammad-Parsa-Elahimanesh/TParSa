@@ -118,7 +118,7 @@ vector<pair<int, int>> TreeEdges(int n, string tr) {
     vector<pair<int, int>> edges;
     for(int i = 0; i < n-1; i++)
         edges.push_back({i+2, par[i]});
-    vector<int> p;
+    vector<int> p(n);
     for(int i = 0; i < n; i++)
         p[i] = i;
     shuffle(all(p));
